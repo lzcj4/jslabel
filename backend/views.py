@@ -8,6 +8,7 @@ from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
 
+from backend.forms import LoginForm
 from backend.utils import stop_watch
 
 HTTP_GET = "GET"
@@ -43,7 +44,8 @@ def user_login(request):
             return JsonResponse({"code": 500, 'msg': "incorrect user or pwd"})
             # return HttpResponse(json.dumps({"code": 500, 'msg': "incorrect user or pwd"}))
     else:
-        return render(request, "login.html")
+        form = LoginForm()
+        return render(request, "login.html", {'form': form})
 
 
 @login_required
