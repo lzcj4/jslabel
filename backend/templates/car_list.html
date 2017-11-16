@@ -1,0 +1,111 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <style type="text/css">
+        li {
+            list-style: none; /* 将默认的列表符号去掉 */
+            padding: 0; /* 将默认的内边距去掉 */
+            margin: 0; /* 将默认的外边距去掉 */
+            float: left; /* 往左浮动 */
+        }
+
+        li a {
+            display: block; /* 将链接设为块级元素 */
+            padding: 8px 10px; /* 设置内边距 */
+            background: #3A4953; /* 设置背景色 */
+            color: #fff; /* 设置文字颜色 */
+            text-decoration: none; /* 去掉下划线 */
+            border-right: 1px solid #000; /* 在左侧加上分隔线 */
+        }
+
+        .div_inline {
+            flex-direction: column;
+        }
+
+        .div_login {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            z-index: 1;
+            width: 300px;
+            height: 200px;
+            background-color: darkseagreen;
+        }
+    </style>
+
+    <div class="div_login">
+        <form method="post" action="{% url 'backend:login' %}">
+            {% csrf_token %}
+            <table>
+                <tr>
+                    <td>用户名:</td>
+                    <td><input id="txtUser" name="user" width="50"/></td>
+                </tr>
+                <tr>
+                    <td>密码:</td>
+                    <td><input id="txtPwd" type="password" name="pwd" width="50"/></td>
+                </tr>
+                <tr>
+                    <td colspan="2"><input type="submit" content="提交"/></td>
+                </tr>
+            </table>
+        </form>
+    </div>
+
+    <div>
+
+        {% for k1,v1 in list_result.group_cars.items %}
+            <div class="div_inline" style="position: relative;border-bottom:1px solid #000">
+                <span><h3>{{ k1.index_char }}</h3></span>
+            </div>
+
+            <div class="div_inline" style="position: relative;margin-top: 20px">
+                <span><h3>{{ k1.name }}</h3></span>
+            </div>
+            <div class="div_inline" style="position: relative;margin-top: 20px">
+                {% for k2,v2 in v1.items %}
+                    <div class="div_inline" style="position: relative;">
+                        <span><h3>{{ k2.name }}</h3></span>
+                        <table>
+                            {% for car in v2 %}
+                                <tr>
+                                    <td>{{ car.market_year }}</td>
+                                    <td>{{ car.front }}</td>
+                                    <td><img src=" {{ car.front_photo }}" width="50" height="50"/></td>
+                                    <td>{{ car.back }}</td>
+                                    <td><img src=" {{ car.back_photo }}" width="50" height="50"></td>
+                                </tr>
+                            {% endfor %}
+                        </table>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endfor %}
+
+
+        <div class="div_inline" style="position: relative;margin-top: 20px">
+            {% if list_result.cars.has_other_pages %}
+                <ul class="pagination">
+                    {% if list_result.cars.has_previous %}
+                        <li><a href="?page={{ list_result.cars.previous_page_number }}">&laquo;</a></li>
+                    {% else %}
+                        <li class="disabled"><span>&laquo;</span></li>
+                    {% endif %}
+                    {% for i in list_result.cars.paginator.page_range %}
+                        {% if list_result.cars.number == i %}
+                            <li style="font-size: 30px; color: red;"><span>{{ i }} </span></li>
+                        {% else %}
+                            <li><a href="?page={{ i }}">{{ i }}</a></li>
+                        {% endif %}
+                    {% endfor %}
+                    {% if cars.has_next %}
+                        <li><a href="?page={{ list_result.cars.next_page_number }}">&raquo;</a></li>
+                    {% else %}
+                        <li class="disabled"><span>&raquo;</span></li>
+                    {% endif %}
+                </ul>
+            {% endif %}
+        </div>
+
+    </div>
+{% endblock content %}
