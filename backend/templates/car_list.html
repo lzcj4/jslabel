@@ -33,24 +33,28 @@
         }
     </style>
 
-    <div class="div_login">
-        <form method="post" action="{% url 'backend:login' %}">
-            {% csrf_token %}
-            <table>
-                <tr>
-                    <td>用户名:</td>
-                    <td><input id="txtUser" name="user" width="50"/></td>
-                </tr>
-                <tr>
-                    <td>密码:</td>
-                    <td><input id="txtPwd" type="password" name="pwd" width="50"/></td>
-                </tr>
-                <tr>
-                    <td colspan="2"><input type="submit" content="提交"/></td>
-                </tr>
-            </table>
-        </form>
-    </div>
+    {% if not user.is_authenticated %}
+        <div class="div_login">
+
+            <form method="post" action="{% url 'backend:login' %}">
+                {% csrf_token %}
+                <table>
+                    <tr>
+                        <td>用户名:</td>
+                        <td><input id="txtUser" name="user" width="50"/></td>
+                    </tr>
+                    <tr>
+                        <td>密码:</td>
+                        <td><input id="txtPwd" type="password" name="pwd" width="50"/></td>
+                    </tr>
+                    <tr>
+                        <td colspan="2"><input type="submit" content="提交"/></td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+
+    {% endif %}
 
     <div>
 

@@ -1,17 +1,34 @@
+from django.contrib.auth.decorators import permission_required, login_required
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
+from django.utils.decorators import method_decorator
 from django.views import generic
 
 from backend.models import CarFeature
+from perms import Perms
 
 
 class CarListView(generic.ListView):
     template_name = 'car_list.html'
     context_object_name = 'list_result'
 
+    @method_decorator(login_required)
     def get_queryset(self):
-        """Return the last five published questions."""
+        """Return cars group by brand and model"""
+        return CarListView.get_cars(self.request)
+
+        # def get_context_data(self, **kwargs):
+        #     # Call the base implementation first to get a context
+        #     context = super(CarListView, self).get_context_data(**kwargs)
+        #     # Add in the publisher
+        #     context['publisher'] = self.publisher
+        #     return context
+
+    @staticmethod
+    @permission_required(Perms.CAR_LIST, login_url='/logout/')
+    def get_cars(request):
+        """Return cars group by brand and model"""
         all_list = CarFeature.objects.all().order_by('id')
-        page = self.request.GET.get('page', 1)
+        page = request.GET.get('page', 1)
         paginator = Paginator(all_list, 10)
         try:
             cars = paginator.page(page)
@@ -30,16 +47,9 @@ class CarListView(generic.ListView):
             if sub_model not in b_dict:
                 b_dict[sub_model] = []
             b_dict[sub_model].append(item)
-        return {'cars': cars, 'group_cars': group_result}
+        return {'cars': cars, 'group_cars': group_result, "user": request.user}
 
-        # def get_context_data(self, **kwargs):
-        #     # Call the base implementation first to get a context
-        #     context = super(CarListView, self).get_context_data(**kwargs)
-        #     # Add in the publisher
-        #     context['publisher'] = self.publisher
-        #     return context
+    # class DetailView(generic.DetailView):
 
-#
-# class DetailView(generic.DetailView):
-#     model = Question
+# model = Question
 #     template_name = 'polls/detail.html'

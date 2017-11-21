@@ -50,6 +50,8 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'JSLabel.urls'
 LOGIN_URL = 'backend:login'
+LOGOUT_REDIRECT_URL = 'backend:index'
+LOGIN_REDIRECT_URL = 'backend:index'
 
 TEMPLATES = [
     {
