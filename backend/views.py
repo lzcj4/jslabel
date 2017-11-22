@@ -9,7 +9,7 @@ from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
 
-from backend.models import CarFeature
+from backend.models_car import CarFeature
 from backend.utils import log_time
 from backend.forms import MyAuthenticationForm
 from backend.perms import Perms

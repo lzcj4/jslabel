@@ -1,16 +1,18 @@
 from django.contrib.auth.models import User
-from django.contrib.contenttypes.fields import GenericForeignKey, GenericRelation
+from django.contrib.contenttypes.fields import GenericRelation, GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
 from django.db import models
 
-# Create your models here.
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 
 
+# region  Sys-Auth models
+
 class UserInfo(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     department = models.CharField(max_length=100)
+    # tasks = models.ForeignKey('MarkTask', on_delete=models.CASCADE, default=0)
 
 
 @receiver(post_save, sender=User)
@@ -24,20 +26,28 @@ def save_user_profile(sender, instance, **kwargs):
     instance.userinfo.save()
 
 
-class CarBrand(models.Model):
-    name = models.CharField(max_length=100, verbose_name='car name', unique=True)
-    index_char = models.CharField(max_length=10, blank=True, verbose_name='for quick location')
+# endregion
 
 
-class CarModel(models.Model):
-    brand = models.ForeignKey(CarBrand, on_delete=models.CASCADE, default=0)
-    name = models.CharField(max_length=100, verbose_name='car model name')
+# region JS-Mark models
+
+class MarkTask(models.Model):
+    name = models.CharField(max_length=100, verbose_name='任务名', unique=False, default='')
+    date_created = models.DateTimeField(auto_now_add=True, verbose_name='创建时间')
 
 
-class CarFeature(models.Model):
-    model = models.ForeignKey(CarModel, on_delete=models.CASCADE)
-    market_year = models.IntegerField(verbose_name='model create year', default=0)
-    front = models.CharField(max_length=100, verbose_name='front feature', blank=True)
-    front_photo = models.CharField(max_length=100, verbose_name='front photo', blank=True)
-    back = models.CharField(max_length=100, verbose_name='back feature', blank=True)
-    back_photo = models.CharField(max_length=100, verbose_name='back photo', blank=True)
+class MarkFile(models.Model):
+    file_path = models.CharField(max_length=500, verbose_name='文件路径', default='')
+    task = models.ForeignKey('MarkTask', on_delete=models.CASCADE, related_name='files')
+
+
+class MarkObject(models.Model):
+    name = models.CharField(max_length=100, verbose_name='对象名', default='')
+    file = models.ForeignKey('MarkFile', on_delete=models.CASCADE, related_name='objects')
+
+
+class MarkFeature(models.Model):
+    name = models.CharField(max_length=100, verbose_name='特征名', default='')
+    object = models.ForeignKey('MarkObject', on_delete=models.CASCADE, related_name='featurs')
+
+# endregion

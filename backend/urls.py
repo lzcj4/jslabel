@@ -15,5 +15,8 @@ urlpatterns = [
     url(r'login/$', MyLoginView.as_view(), name="login"),
     url(r'logout/$', MyLogoutView.as_view(), name="logout"),
     url(r'password/change/$', MyPasswordChangeView.as_view(), name="password_change"),
-    url(r'car/$', CarListView.as_view(), name="list_car"),
+    url(r'car/list/$', CarListView.as_view(), name="list_car"),
+
+    url(r'mark/list', CarListView.as_view(), name="mark_list"),
+    url(r'mark/create$', CarListView.as_view(), name="mark_create"),
 ]

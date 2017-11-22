@@ -1,4 +1,6 @@
 from django.contrib.auth.forms import AuthenticationForm, PasswordChangeForm
+from django import forms
+from django.utils.translation import ugettext, ugettext_lazy as _
 
 
 class MyAuthenticationForm(AuthenticationForm):
@@ -40,3 +42,14 @@ class MyPasswordChangeForm(PasswordChangeForm):
         self.fields['old_password'].label = '旧密码'
         self.fields['new_password1'].label = '新密码'
         self.fields['new_password2'].label = '确认新密码'
+
+
+class MarkTaskCreateForm(forms.Form):
+    """
+      Mark task create form
+    """
+    name = forms.CharField(label=_("任务名"), max_length=50)
+    file_path = forms.CharField(label=_("文件名"), max_length=250)
+
+    def __init__(self, request, *args, **kwargs):
+        super(MarkTaskCreateForm, self).__init__(request, *args, **kwargs)

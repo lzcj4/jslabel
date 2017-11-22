@@ -1,20 +1,20 @@
 from django.contrib.auth.decorators import permission_required, login_required
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
+from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
 from django.views import generic
 
-from backend.models import CarFeature
 from backend.perms import Perms
+from backend.models_car import CarFeature, CarBrand
 
 
 class CarListView(generic.ListView):
     template_name = 'car_list.html'
     context_object_name = 'list_result'
 
-
     def get_queryset(self):
         """Return cars group by brand and model"""
-        return CarListView.get_cars(self.request)
+        return self.get_cars(self.request)
 
         # def get_context_data(self, **kwargs):
         #     # Call the base implementation first to get a context
@@ -23,10 +23,9 @@ class CarListView(generic.ListView):
         #     context['publisher'] = self.publisher
         #     return context
 
-    @staticmethod
-    @permission_required(Perms.CAR_LIST, login_url='/logout/')
+    # @permission_required(Perms.CAR_LIST, login_url=reverse_lazy('backend:index'))
     @method_decorator(login_required)
-    def get_cars(request):
+    def get_cars(self, request):
         """Return cars group by brand and model"""
         all_list = CarFeature.objects.all().order_by('id')
         page = request.GET.get('page', 1)
@@ -50,7 +49,7 @@ class CarListView(generic.ListView):
             b_dict[sub_model].append(item)
         return {'cars': cars, 'group_cars': group_result, "user": request.user}
 
-    # class DetailView(generic.DetailView):
+        # class DetailView(generic.DetailView):
 
 # model = Question
 #     template_name = 'polls/detail.html'
