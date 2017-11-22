@@ -1,6 +1,5 @@
 from django.contrib.auth import login
-from django.contrib.auth.models import User
-from django.contrib.auth.views import LoginView, LogoutView, PasswordChangeView, UserModel
+from django.contrib.auth.views import LoginView, LogoutView, PasswordChangeView
 from django.http import HttpResponseRedirect, JsonResponse
 from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
@@ -8,7 +7,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import CreateView
 
 from backend.forms import MyAuthenticationForm, MyPasswordChangeForm, MarkTaskCreateForm
-from models import MarkTask
+from backend.models import MarkTask, MarkFile, MarkUserTask
 
 
 def add_test_user(user):
@@ -17,6 +16,27 @@ def add_test_user(user):
     # if not user:
     #     user.set_password("admin")
     #     user.save()
+
+
+def add_test_task(user):
+    get_items = MarkUserTask.objects.filter(user=user)
+    # get_items = MarkUserTask.objects.filter(user__id=user.id)
+    u_t = get_items[0] if get_items else None
+    print("user:{0},task:{1}".format(u_t.user.id, u_t.task.id))
+    task = MarkTask(name="task1")
+    task.save()
+
+    file = MarkFile(file_path='c:/test.jpg')
+    file.task = task
+    file.save()
+
+    user_task = MarkUserTask(task=task, user=user)
+    user_task.save()
+    file2 = MarkFile(file_path='c:/test2.jpg')
+    file2.task = task
+    file2.save()
+
+    print("task:{0},file:{1},task.files:{2}".format(task.id, file.id, task.files.count()))
 
 
 class MyLoginView(LoginView):
@@ -43,6 +63,7 @@ class MyLoginView(LoginView):
     def form_valid(self, form):
         """Security check complete. Log the user in."""
         user = form.get_user()
+        add_test_task(user)
         login(self.request, user)
         add_test_user(user)
         return JsonResponse(
@@ -64,5 +85,5 @@ class MarkCreateView(CreateView):
     template_name = 'mark_create.html'
     success_url = reverse_lazy('backend:mark_list')
     form_class = MarkTaskCreateForm
-    model = MarkTask
+    # model = MarkTask
     # fields = ['name']

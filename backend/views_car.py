@@ -1,11 +1,9 @@
-from django.contrib.auth.decorators import permission_required, login_required
+from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
-from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
 from django.views import generic
 
-from backend.perms import Perms
-from backend.models_car import CarFeature, CarBrand
+from backend.models_car import CarFeature
 
 
 class CarListView(generic.ListView):

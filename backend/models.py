@@ -31,9 +31,18 @@ def save_user_profile(sender, instance, **kwargs):
 
 # region JS-Mark models
 
+class MarkUserTask(models.Model):
+    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
+    task = models.ForeignKey('MarkTask', on_delete=models.CASCADE)
+
+
 class MarkTask(models.Model):
     name = models.CharField(max_length=100, verbose_name='任务名', unique=False, default='')
     date_created = models.DateTimeField(auto_now_add=True, verbose_name='创建时间')
+
+    class Meta:
+        default_related_name = "files"
+        # permissions = (("can_create_mark_task", "add mark task privilege"),)
 
 
 class MarkFile(models.Model):
