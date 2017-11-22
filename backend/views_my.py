@@ -1,6 +1,8 @@
 from django.contrib.auth import login
 from django.contrib.auth.views import LoginView, LogoutView, PasswordChangeView
 from django.http import HttpResponseRedirect, JsonResponse
+from django.urls import reverse_lazy
+from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 
 from forms import MyAuthenticationForm, MyPasswordChangeForm
@@ -13,7 +15,7 @@ class MyLoginView(LoginView):
     form_class = MyAuthenticationForm
     template_name = "login.html"
 
-    @csrf_exempt
+    @method_decorator(csrf_exempt)
     def dispatch(self, request, *args, **kwargs):
         if self.redirect_authenticated_user and self.request.user.is_authenticated:
             redirect_to = self.get_success_url()
@@ -24,7 +26,7 @@ class MyLoginView(LoginView):
                 )
             return HttpResponseRedirect(redirect_to)
         return super(LoginView, self).dispatch(request, *args, **kwargs)
-        # return super(MyLoginView, self).dispatch(request,*args, **kwargs)
+    #     return super(MyLoginView, self).dispatch(request, *args, **kwargs)
 
     def form_valid(self, form):
         """Security check complete. Log the user in."""
@@ -45,5 +47,5 @@ class MyLogoutView(LogoutView):
 
 class MyPasswordChangeView(PasswordChangeView):
     template_name = 'password_change.html'
-    success_url = '/'
+    success_url = reverse_lazy('backend:index')
     form_class = MyPasswordChangeForm

@@ -31,7 +31,7 @@ def index(request):
 def add_perm(user):
     content_type = ContentType.objects.get_for_model(CarFeature)
     permission = Permission.objects.create(codename=Perms.CAR_LIST,
-                                           name='Can Publish Posts',
+                                           name='车辆列表',
                                            content_type=content_type)
     user.user_permissions.add(permission)
     user.save()

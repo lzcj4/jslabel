@@ -1,9 +1,8 @@
 from django.conf.urls import url
-from django.views.decorators.csrf import csrf_exempt
 
 from backend import views
 from backend.views_car import CarListView
-from views_class import MyLoginView, MyLogoutView, MyPasswordChangeView
+from views_my import MyLoginView, MyLogoutView, MyPasswordChangeView
 
 app_name = "backend"
 urlpatterns = [

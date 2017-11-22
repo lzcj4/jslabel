@@ -9,8 +9,8 @@ class MyAuthenticationForm(AuthenticationForm):
 
     def __init__(self, request, *args, **kwargs):
         super(MyAuthenticationForm, self).__init__(request, *args, **kwargs)
-        MyAuthenticationForm.declared_fields['username'].label = '用户名'
-        MyAuthenticationForm.declared_fields['password'].label = '密码'
+        self.fields['username'].label = '用户名'
+        self.fields['password'].label = '密码'
 
 
 # class LoginForm(forms.ModelForm):
@@ -35,25 +35,8 @@ class MyPasswordChangeForm(PasswordChangeForm):
     username/password logins.
     """
 
-    # old_password = forms.CharField(
-    #     label=_("旧密码"),
-    #     strip=False,
-    #     widget=forms.PasswordInput,
-    # )
-    # new_password1 = forms.CharField(
-    #     label=_("新密码"),
-    #     strip=False,
-    #     widget=forms.PasswordInput,
-    # )
-    #
-    # new_password2 = forms.CharField(
-    #     label=_("确认新密码"),
-    #     strip=False,
-    #     widget=forms.PasswordInput,
-    # )
-
     def __init__(self, user, *args, **kwargs):
         super(MyPasswordChangeForm, self).__init__(user, *args, **kwargs)
-        PasswordChangeForm.declared_fields['old_password'].label = '旧密码'
-        PasswordChangeForm.declared_fields['new_password1'].label = '新密码'
-        PasswordChangeForm.declared_fields['new_password2'].label = '确认新密码'
+        self.fields['old_password'].label = '旧密码'
+        self.fields['new_password1'].label = '新密码'
+        self.fields['new_password2'].label = '确认新密码'
