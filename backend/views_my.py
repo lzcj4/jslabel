@@ -5,7 +5,7 @@ from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 
-from forms import MyAuthenticationForm, MyPasswordChangeForm
+from backend.forms import MyAuthenticationForm, MyPasswordChangeForm
 
 
 class MyLoginView(LoginView):

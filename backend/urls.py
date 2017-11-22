@@ -2,7 +2,7 @@ from django.conf.urls import url
 
 from backend import views
 from backend.views_car import CarListView
-from views_my import MyLoginView, MyLogoutView, MyPasswordChangeView
+from backend.views_my import MyLoginView, MyLogoutView, MyPasswordChangeView
 
 app_name = "backend"
 urlpatterns = [

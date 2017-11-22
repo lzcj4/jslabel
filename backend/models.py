@@ -1,4 +1,6 @@
 from django.contrib.auth.models import User
+from django.contrib.contenttypes.fields import GenericForeignKey, GenericRelation
+from django.contrib.contenttypes.models import ContentType
 from django.db import models
 
 # Create your models here.
@@ -26,8 +28,9 @@ class CarBrand(models.Model):
     name = models.CharField(max_length=100, verbose_name='car name', unique=True)
     index_char = models.CharField(max_length=10, blank=True, verbose_name='for quick location')
 
+
 class CarModel(models.Model):
-    brand = models.ForeignKey(CarBrand, on_delete=models.CASCADE)
+    brand = models.ForeignKey(CarBrand, on_delete=models.CASCADE, default=0)
     name = models.CharField(max_length=100, verbose_name='car model name')
 
 

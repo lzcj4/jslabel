@@ -11,8 +11,8 @@ from django.views.decorators.csrf import csrf_exempt
 
 from backend.models import CarFeature
 from backend.utils import log_time
-from forms import MyAuthenticationForm
-from perms import Perms
+from backend.forms import MyAuthenticationForm
+from backend.perms import Perms
 
 HTTP_GET = "GET"
 HTTP_POST = "POST"

@@ -4,14 +4,14 @@ from django.utils.decorators import method_decorator
 from django.views import generic
 
 from backend.models import CarFeature
-from perms import Perms
+from backend.perms import Perms
 
 
 class CarListView(generic.ListView):
     template_name = 'car_list.html'
     context_object_name = 'list_result'
 
-    @method_decorator(login_required)
+
     def get_queryset(self):
         """Return cars group by brand and model"""
         return CarListView.get_cars(self.request)
@@ -25,6 +25,7 @@ class CarListView(generic.ListView):
 
     @staticmethod
     @permission_required(Perms.CAR_LIST, login_url='/logout/')
+    @method_decorator(login_required)
     def get_cars(request):
         """Return cars group by brand and model"""
         all_list = CarFeature.objects.all().order_by('id')
