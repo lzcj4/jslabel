@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div style="position: absolute;left: 20%">
+        <form>
+            {% csrf_token %}
+
+            {% for t in tasks %}
+                <div>
+                    {{ '任务名' }}
+                    {{ t.name }}
+                </div>
+
+                <div>
+                    {{ '创建人' }}
+                    {{ t.user_created.username }}
+                </div>
+                    <div>
+                    {{ '创建时间' }}
+                    {{ t.date_created }}
+                </div>
+
+            {% endfor %}
+
+        </form>
+    </div>
+
+{% endblock content %}

@@ -38,11 +38,12 @@ class MarkUserTask(models.Model):
 
 class MarkTask(models.Model):
     name = models.CharField(max_length=100, verbose_name='任务名', unique=False, default='')
+    user_created = models.ForeignKey(User,verbose_name='创建人', null=False)
     date_created = models.DateTimeField(auto_now_add=True, verbose_name='创建时间')
 
-    class Meta:
-        default_related_name = "files"
-        # permissions = (("can_create_mark_task", "add mark task privilege"),)
+    # class Meta:
+    #     default_related_name = "files"
+    #     permissions = (("create_marktask", "创建任务权利"))
 
 
 class MarkFile(models.Model):
@@ -57,6 +58,6 @@ class MarkObject(models.Model):
 
 class MarkFeature(models.Model):
     name = models.CharField(max_length=100, verbose_name='特征名', default='')
-    object = models.ForeignKey('MarkObject', on_delete=models.CASCADE, related_name='featurs')
+    object = models.ForeignKey('MarkObject', on_delete=models.CASCADE, related_name='features')
 
 # endregion

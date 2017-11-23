@@ -2,7 +2,7 @@ from django.conf.urls import url
 
 from backend import views
 from backend.views_car import CarListView
-from backend.views_my import MyLoginView, MyLogoutView, MyPasswordChangeView
+from backend.views_my import MyLoginView, MyLogoutView, MyPasswordChangeView, MarkTaskCreateView, MarkTaskListView
 
 app_name = "backend"
 urlpatterns = [
@@ -17,6 +17,6 @@ urlpatterns = [
     url(r'password/change/$', MyPasswordChangeView.as_view(), name="password_change"),
     url(r'car/list/$', CarListView.as_view(), name="list_car"),
 
-    url(r'mark/list', CarListView.as_view(), name="mark_list"),
-    url(r'mark/create$', CarListView.as_view(), name="mark_create"),
+    url(r'task/list/', MarkTaskListView.as_view(), name="task_list"),
+    url(r'task/create/$', MarkTaskCreateView.as_view(), name="task_create"),
 ]

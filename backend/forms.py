@@ -2,6 +2,8 @@ from django.contrib.auth.forms import AuthenticationForm, PasswordChangeForm
 from django import forms
 from django.utils.translation import ugettext, ugettext_lazy as _
 
+IMAGE_FOLDER = "E:/素材/Image/pp/"
+
 
 class MyAuthenticationForm(AuthenticationForm):
     """
@@ -33,7 +35,5 @@ class MarkTaskCreateForm(forms.Form):
       Mark task create form
     """
     name = forms.CharField(label=_("任务名"), max_length=50)
-    file_path = forms.CharField(label=_("文件名"), max_length=250)
-
-    def __init__(self, request, *args, **kwargs):
-        super(MarkTaskCreateForm, self).__init__(request, *args, **kwargs)
+    file_path = forms.FilePathField(IMAGE_FOLDER, label=_("文件名"), allow_files=True, allow_folders=False)
+    # file_path = forms.FileField(label=_("文件名"))

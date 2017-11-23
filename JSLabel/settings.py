@@ -74,7 +74,7 @@ WSGI_APPLICATION = 'JSLabel.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
-
+# CREATE DATABASE jslabel  DEFAULT CHARACTER SET utf8  DEFAULT COLLATE utf8_general_ci;
 DATABASES = {
     'default': {
         # 'ENGINE': 'django.db.backends.sqlite3',
