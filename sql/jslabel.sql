@@ -1,5 +1,5 @@
 ﻿# Host: localhost  (Version 5.7.19)
-# Date: 2017-11-23 13:59:28
+# Date: 2017-11-24 17:51:49
 # Generator: MySQL-Front 6.0  (Build 2.20)
 
 
@@ -140,13 +140,17 @@ CREATE TABLE `backend_marktask` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(100) NOT NULL,
   `date_created` datetime(6) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `user_created_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `backend_marktask_user_created_id_49dcfebf` (`user_created_id`),
+  CONSTRAINT `backend_marktask_user_created_id_49dcfebf_fk_auth_user_id` FOREIGN KEY (`user_created_id`) REFERENCES `auth_user` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8;
 
 #
 # Data for table "backend_marktask"
 #
 
+INSERT INTO `backend_marktask` VALUES (23,'SDF',X'323031372D31312D32342031363A31303A33322E373430393234',1),(24,'SDF',X'323031372D31312D32342031363A32363A33312E383038343331',1),(25,'SDF',X'323031372D31312D32342031363A32363A33392E323431363835',1),(26,'12312',X'323031372D31312D32342031363A32373A31372E383837343736',1),(27,'12312',X'323031372D31312D32342031363A34353A32352E333830333735',1);
 
 #
 # Structure for table "backend_markfile"
@@ -157,15 +161,17 @@ CREATE TABLE `backend_markfile` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `file_path` varchar(500) NOT NULL,
   `task_id` int(11) NOT NULL,
+  `file_name` varchar(100) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `backend_markfile_task_id_a06901a8_fk_backend_marktask_id` (`task_id`),
   CONSTRAINT `backend_markfile_task_id_a06901a8_fk_backend_marktask_id` FOREIGN KEY (`task_id`) REFERENCES `backend_marktask` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8;
 
 #
 # Data for table "backend_markfile"
 #
 
+INSERT INTO `backend_markfile` VALUES (20,'0_1511511032.png',23,'0.png'),(21,'A3_1511511991.png',24,'A3.png'),(22,'大图1_1511511999.jpg',25,'大图1.jpg'),(23,'大图1_1511512037.jpg',26,'大图1.jpg'),(24,'1111_1511513125.jpg',27,'1111.jpg');
 
 #
 # Structure for table "backend_markobject"
@@ -219,12 +225,13 @@ CREATE TABLE `backend_markusertask` (
   KEY `backend_markusertask_user_id_ccee6e23_fk_auth_user_id` (`user_id`),
   CONSTRAINT `backend_markusertask_task_id_50d721da_fk_backend_marktask_id` FOREIGN KEY (`task_id`) REFERENCES `backend_marktask` (`id`),
   CONSTRAINT `backend_markusertask_user_id_ccee6e23_fk_auth_user_id` FOREIGN KEY (`user_id`) REFERENCES `auth_user` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8;
 
 #
 # Data for table "backend_markusertask"
 #
 
+INSERT INTO `backend_markusertask` VALUES (20,23,1),(21,24,1),(22,25,1),(23,26,1),(24,27,1);
 
 #
 # Structure for table "backend_userinfo"
@@ -304,7 +311,7 @@ CREATE TABLE `auth_permission` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `auth_permission_content_type_id_codename_01ab375a_uniq` (`content_type_id`,`codename`),
   CONSTRAINT `auth_permission_content_type_id_2f476e4b_fk_django_co` FOREIGN KEY (`content_type_id`) REFERENCES `django_content_type` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=47 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=46 DEFAULT CHARSET=utf8;
 
 #
 # Data for table "auth_permission"
@@ -365,13 +372,13 @@ CREATE TABLE `django_migrations` (
   `name` varchar(255) NOT NULL,
   `applied` datetime(6) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8;
 
 #
 # Data for table "django_migrations"
 #
 
-INSERT INTO `django_migrations` VALUES (1,'contenttypes','0001_initial',X'323031372D31312D32332031333A34383A33362E373730393436'),(2,'auth','0001_initial',X'323031372D31312D32332031333A34383A34332E383733393232'),(3,'admin','0001_initial',X'323031372D31312D32332031333A34383A34342E393333313732'),(4,'admin','0002_logentry_remove_auto_add',X'323031372D31312D32332031333A34383A34342E393739363637'),(5,'contenttypes','0002_remove_content_type_name',X'323031372D31312D32332031333A34383A34362E363031333434'),(6,'auth','0002_alter_permission_name_max_length',X'323031372D31312D32332031333A34383A34372E353034393735'),(7,'auth','0003_alter_user_email_max_length',X'323031372D31312D32332031333A34383A34382E333531313636'),(8,'auth','0004_alter_user_username_opts',X'323031372D31312D32332031333A34383A34382E333933313737'),(9,'auth','0005_alter_user_last_login_null',X'323031372D31312D32332031333A34383A34392E303630353533'),(10,'auth','0006_require_contenttypes_0002',X'323031372D31312D32332031333A34383A34392E313034333636'),(11,'auth','0007_alter_validators_add_error_messages',X'323031372D31312D32332031333A34383A34392E313637363130'),(12,'auth','0008_alter_user_username_max_length',X'323031372D31312D32332031333A34383A35302E303532313536'),(13,'backend','0001_initial',X'323031372D31312D32332031333A34383A35392E303935373234'),(14,'sessions','0001_initial',X'323031372D31312D32332031333A34393A30302E323230343236');
+INSERT INTO `django_migrations` VALUES (1,'contenttypes','0001_initial',X'323031372D31312D32332031333A34383A33362E373730393436'),(2,'auth','0001_initial',X'323031372D31312D32332031333A34383A34332E383733393232'),(3,'admin','0001_initial',X'323031372D31312D32332031333A34383A34342E393333313732'),(4,'admin','0002_logentry_remove_auto_add',X'323031372D31312D32332031333A34383A34342E393739363637'),(5,'contenttypes','0002_remove_content_type_name',X'323031372D31312D32332031333A34383A34362E363031333434'),(6,'auth','0002_alter_permission_name_max_length',X'323031372D31312D32332031333A34383A34372E353034393735'),(7,'auth','0003_alter_user_email_max_length',X'323031372D31312D32332031333A34383A34382E333531313636'),(8,'auth','0004_alter_user_username_opts',X'323031372D31312D32332031333A34383A34382E333933313737'),(9,'auth','0005_alter_user_last_login_null',X'323031372D31312D32332031333A34383A34392E303630353533'),(10,'auth','0006_require_contenttypes_0002',X'323031372D31312D32332031333A34383A34392E313034333636'),(11,'auth','0007_alter_validators_add_error_messages',X'323031372D31312D32332031333A34383A34392E313637363130'),(12,'auth','0008_alter_user_username_max_length',X'323031372D31312D32332031333A34383A35302E303532313536'),(13,'backend','0001_initial',X'323031372D31312D32332031333A34383A35392E303935373234'),(14,'sessions','0001_initial',X'323031372D31312D32332031333A34393A30302E323230343236'),(15,'backend','0002_auto_20171123_2009',X'323031372D31312D32332032303A30393A32302E353332333632'),(16,'backend','0003_auto_20171123_2012',X'323031372D31312D32332032303A31323A32322E313036343131'),(17,'backend','0004_auto_20171124_1458',X'323031372D31312D32342031353A30313A35362E373236383433'),(18,'backend','0005_auto_20171124_1600',X'323031372D31312D32342031363A30303A32352E373430323936'),(19,'backend','0006_auto_20171124_1609',X'323031372D31312D32342031363A30393A32382E313631313938'),(20,'backend','0007_auto_20171124_1609',X'323031372D31312D32342031363A30393A35352E373034333137');
 
 #
 # Structure for table "django_session"

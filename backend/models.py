@@ -38,7 +38,7 @@ class MarkUserTask(models.Model):
 
 class MarkTask(models.Model):
     name = models.CharField(max_length=100, verbose_name='任务名', unique=False, default='')
-    user_created = models.ForeignKey(User,verbose_name='创建人', null=False)
+    user_created = models.ForeignKey(User, verbose_name='创建人', null=False)
     date_created = models.DateTimeField(auto_now_add=True, verbose_name='创建时间')
 
     # class Meta:
@@ -47,7 +47,8 @@ class MarkTask(models.Model):
 
 
 class MarkFile(models.Model):
-    file_path = models.CharField(max_length=500, verbose_name='文件路径', default='')
+    file_name = models.CharField(max_length=100, verbose_name='文件名', default='')
+    file_path = models.CharField(max_length=500, verbose_name='文件服务器端相对路径', default='')
     task = models.ForeignKey('MarkTask', on_delete=models.CASCADE, related_name='files')
 
 

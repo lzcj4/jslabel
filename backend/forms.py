@@ -1,6 +1,9 @@
-from django.contrib.auth.forms import AuthenticationForm, PasswordChangeForm
+import os
+
 from django import forms
-from django.utils.translation import ugettext, ugettext_lazy as _
+from django.contrib.auth.forms import AuthenticationForm, PasswordChangeForm
+from django.core.exceptions import ValidationError
+from django.utils.translation import ugettext_lazy as _
 
 IMAGE_FOLDER = "E:/素材/Image/pp/"
 
@@ -35,5 +38,13 @@ class MarkTaskCreateForm(forms.Form):
       Mark task create form
     """
     name = forms.CharField(label=_("任务名"), max_length=50)
-    file_path = forms.FilePathField(IMAGE_FOLDER, label=_("文件名"), allow_files=True, allow_folders=False)
-    # file_path = forms.FileField(label=_("文件名"))
+    # file_path = forms.FilePathField(IMAGE_FOLDER, label=_("文件名"), allow_files=True, allow_folders=False)
+
+    # img_browser = FileBrowseField(max_length=200)
+    upload_file = forms.FileField(max_length=200, label=_("文件名"))
+
+    # def clean_file_path(self):
+    #     file_path = self.cleaned_data["file_path"]
+    #     if not os.path.exists(file_path):
+    #         raise ValidationError(_("文件:%(file) 不存在"), params={'file': file_path}, code="file_not_existed")
+    #     return file_path

@@ -2,20 +2,15 @@
 
 {% block content %}
     <div style="position: absolute;left: 50%">
-        <form method="post">
+        <form method="post" enctype="multipart/form-data">
             {% csrf_token %}
-
-            <div>
-                {{ form.name.errors }}
-                {{ form.name.label_tag }}
-                {{ form.name }}
-            </div>
-
-            <div>
-                {{ form.file_path.errors }}
-                {{ form.file_path.label_tag }}
-                {{ form.file_path }}
-            </div>
+            {% for f in form %}
+                <div>
+                    {{ f.errors }}
+                    {{ f.label_tag }}
+                    {{ f }}
+                </div>
+            {% endfor %}
             <input type="submit" content="提交"/>
         </form>
     </div>

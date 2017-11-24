@@ -1,7 +1,12 @@
+from time import time
+
+import os
+from django.conf import settings
 from django.contrib.auth import login
 from django.contrib.auth.views import LoginView, LogoutView, PasswordChangeView
 from django.http import HttpResponseRedirect, JsonResponse
-from django.urls import reverse_lazy
+from django.template.defaultfilters import register
+from django.urls import reverse_lazy, reverse
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import FormView, ListView
@@ -20,7 +25,7 @@ def add_test_user(user):
 
 def add_test_task(user):
     get_items = MarkUserTask.objects.filter(user=user)
-    # get_items = MarkUserTask.objects.filter(user__id=user.id)
+    # u_t = MarkUserTask.objects.get(user__id=user.id)
     u_t = get_items[0] if get_items and len(get_items) > 0 else None
     if u_t:
         print("user:{0},task:{1}".format(u_t.user.id, u_t.task.id))
@@ -97,20 +102,53 @@ class MarkTaskCreateView(FormView):
     def create_task(self, form):
         user = self.request.user
         task_name = form.cleaned_data['name']
-        file_path = form.cleaned_data['file_path']
 
         task = MarkTask(name=task_name, user_created=user)
         task.save()
 
-        file = MarkFile(file_path=file_path)
-        file.task = task
-        file.save()
+        for k, v in form.files.items():
+            save_name, save_path = get_media_save_path(v.name)
+            with open(save_path, 'wb+') as new_file:
+                new_file.write(v.file.read())
+                file = MarkFile(file_name=v.name, file_path=save_name)
+                file.task = task
+                file.save()
 
         user_task = MarkUserTask(task=task, user=user)
         user_task.save()
 
-        print("task:{0},file:{1},task.files:{2}".format(task.id, file.id, task.files.count()))
         return task
+
+
+@register.filter
+def get_media_file_url(file_name):
+    """
+    获取文件URL
+    :param file_name:
+    :return:
+    """
+    return "{0}{1}{2}".format(reverse("backend:index"), settings.MEDIA_URL, file_name)
+
+
+def get_media_file_path(file_name):
+    """
+    获取文件保存绝对路径
+    :param file_name:
+    :return:
+    """
+    return "{0}{1}".format(settings.MEDIA_ROOT, file_name)
+
+
+def get_media_save_path(file_name):
+    """
+    获取文件原保存 新文件名 和 新绝对路径
+    :param file_name:
+    :return:
+    """
+    t = int(time())
+    file, ext = os.path.splitext(file_name)
+    new_name = "{0}_{1}{2}".format(file, t, ext)
+    return new_name, get_media_file_path(new_name)
 
 
 class MarkTaskListView(ListView):

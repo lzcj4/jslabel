@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 """
 
 import os
+from django.utils.translation import ugettext_lazy as _
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -49,9 +50,6 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'JSLabel.urls'
-LOGIN_URL = 'backend:login'
-LOGOUT_REDIRECT_URL = 'backend:index'
-LOGIN_REDIRECT_URL = 'backend:index'
 
 TEMPLATES = [
     {
@@ -80,6 +78,8 @@ DATABASES = {
         # 'ENGINE': 'django.db.backends.sqlite3',
         # 'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
         'ENGINE': 'django.db.backends.mysql',
+        'CREATE_DB': True,
+        'CHARSET': "utf8",
         'NAME': 'jslabel',
         'USER': 'root',
         'PASSWORD': 'root',
@@ -87,8 +87,6 @@ DATABASES = {
         'PORT': '3306',
         'OPTIONS': {
             "init_command": "SET foreign_key_checks = 0;",
-            "charset": "utf8",
-            "use_unicode": True,
         },
     }
 }
@@ -128,3 +126,14 @@ USE_TZ = False
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
 STATIC_URL = '/static/'
+
+LANGUAGES = (
+    ('cn', _('China')),
+)
+LOGIN_URL = 'backend:login'
+LOGOUT_REDIRECT_URL = 'backend:index'
+LOGIN_REDIRECT_URL = 'backend:index'
+
+# http://python.usyiyi.cn/documents/django_182/howto/static-files/index.html#serving-uploaded-files-in-development
+MEDIA_ROOT = "E:/Django/"
+MEDIA_URL = "media/"
