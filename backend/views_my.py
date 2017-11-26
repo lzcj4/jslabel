@@ -3,6 +3,7 @@ from time import time
 import os
 from django.conf import settings
 from django.contrib.auth import login
+from django.contrib.auth.models import User
 from django.contrib.auth.views import LoginView, LogoutView, PasswordChangeView
 from django.http import HttpResponseRedirect, JsonResponse
 from django.template.defaultfilters import register
@@ -23,7 +24,7 @@ def add_test_user(user):
     #     user.save()
 
 
-def add_test_task(user):
+def add_test_task(user: User):
     get_items = MarkUserTask.objects.filter(user=user)
     # u_t = MarkUserTask.objects.get(user__id=user.id)
     u_t = get_items[0] if get_items and len(get_items) > 0 else None
@@ -99,10 +100,9 @@ class MarkTaskCreateView(FormView):
         return HttpResponseRedirect(self.get_success_url())
         # return JsonResponse({"code": 200, 'msg': "create mark task:{0} succeed".format(task.id)})
 
-    def create_task(self, form):
+    def create_task(self, form: MarkTaskCreateForm):
         user = self.request.user
         task_name = form.cleaned_data['name']
-
         task = MarkTask(name=task_name, user_created=user)
         task.save()
 
@@ -130,7 +130,7 @@ def get_media_file_url(file_name):
     return "{0}{1}{2}".format(reverse("backend:index"), settings.MEDIA_URL, file_name)
 
 
-def get_media_file_path(file_name):
+def get_media_file_path(file_name: str) -> str:
     """
     获取文件保存绝对路径
     :param file_name:
@@ -145,7 +145,9 @@ def get_media_save_path(file_name):
     :param file_name:
     :return:
     """
+    """:type:int"""
     t = int(time())
+
     file, ext = os.path.splitext(file_name)
     new_name = "{0}_{1}{2}".format(file, t, ext)
     return new_name, get_media_file_path(new_name)
