@@ -8,7 +8,7 @@ from django.views.generic import FormView, ListView
 
 from backend.forms import MyAuthenticationForm, MyPasswordChangeForm, MarkTaskCreateForm
 from backend.models import MarkTask, MarkFile, MarkUserTask
-from utils import get_media_save_path, add_test_user
+from backend.utils import get_media_save_path, add_test_user
 
 
 class MyLoginView(LoginView):
