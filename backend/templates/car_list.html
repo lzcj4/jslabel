@@ -56,60 +56,61 @@
 
     {% endif %}
 
-    <div>
-
+    <div class="container">
         {% for k1,v1 in list_result.group_cars.items %}
-            <div class="div_inline" style="position: relative;border-bottom:1px solid #000">
-                <span><h3>{{ k1.index_char }}</h3></span>
-            </div>
+            <div class="row">
+                <div class="div_inline" style="position: relative;border-bottom:1px solid #000">
+                    <span><h3>{{ k1.index_char }}</h3></span>
+                </div>
 
-            <div class="div_inline" style="position: relative;margin-top: 20px">
-                <span><h3>{{ k1.name }}</h3></span>
-            </div>
-            <div class="div_inline" style="position: relative;margin-top: 20px">
+                <div class="div_inline" style="position: relative;margin-top: 20px">
+                    <span><h3>{{ k1.name }}</h3></span>
+                </div>
+
                 {% for k2,v2 in v1.items %}
-                    <div class="div_inline" style="position: relative;">
-                        <span><h3>{{ k2.name }}</h3></span>
-                        <table>
-                            {% for car in v2 %}
-                                <tr>
-                                    <td>{{ car.market_year }}</td>
-                                    <td>{{ car.front }}</td>
-                                    <td><img src=" {{ car.front_photo }}" width="50" height="50"/></td>
-                                    <td>{{ car.back }}</td>
-                                    <td><img src=" {{ car.back_photo }}" width="50" height="50"></td>
-                                </tr>
-                            {% endfor %}
-                        </table>
-                    </div>
+                    {% for car in v2 %}
+                        <div class="col-md-2 column ui-sortable">
+                            <div class="thumbnail">
+                                <img src="{{ car.front_photo }}">
+                                <div class="caption">
+                                    <h3>{{ car.market_year }}</h3>
+                                    <p>{{ car.front }}</p>
+                                    <p>
+                                        <a href="#" class="btn btn-primary" role="button"> 按钮 </a>
+                                        <a href="#" class="btn btn-default" role="button">按钮 </a>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
                 {% endfor %}
             </div>
         {% endfor %}
+    </div>
 
-
-        <div class="div_inline" style="position: relative;margin-top: 20px">
-            {% if list_result.cars.has_other_pages %}
-                <ul class="pagination">
-                    {% if list_result.cars.has_previous %}
-                        <li><a href="?page={{ list_result.cars.previous_page_number }}">&laquo;</a></li>
+    <div class="div_inline col-xs-6 col-md-offset-3 ">
+        {% if list_result.cars.has_other_pages %}
+            <ul class="pagination">
+                {% if list_result.cars.has_previous %}
+                    <li><a href="?page={{ list_result.cars.previous_page_number }}">&laquo;</a></li>
+                {% else %}
+                    <li class="disabled"><span>&laquo;</span></li>
+                {% endif %}
+                {% for i in list_result.cars.paginator.page_range %}
+                    {% if list_result.cars.number == i %}
+                        <li><span style="font-size: 20px; color: red; font-weight: bold">{{ i }} </span></li>
                     {% else %}
-                        <li class="disabled"><span>&laquo;</span></li>
+                        <li><a href="?page={{ i }}">{{ i }}</a></li>
                     {% endif %}
-                    {% for i in list_result.cars.paginator.page_range %}
-                        {% if list_result.cars.number == i %}
-                            <li style="font-size: 30px; color: red;"><span>{{ i }} </span></li>
-                        {% else %}
-                            <li><a href="?page={{ i }}">{{ i }}</a></li>
-                        {% endif %}
-                    {% endfor %}
-                    {% if cars.has_next %}
-                        <li><a href="?page={{ list_result.cars.next_page_number }}">&raquo;</a></li>
-                    {% else %}
-                        <li class="disabled"><span>&raquo;</span></li>
-                    {% endif %}
-                </ul>
-            {% endif %}
-        </div>
+                {% endfor %}
+                {% if cars.has_next %}
+                    <li><a href="?page={{ list_result.cars.next_page_number }}">&raquo;</a></li>
+                {% else %}
+                    <li class="disabled"><span>&raquo;</span></li>
+                {% endif %}
+            </ul>
+        {% endif %}
+    </div>
 
     </div>
 {% endblock content %}

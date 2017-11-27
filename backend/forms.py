@@ -1,9 +1,6 @@
-import os
-
 from django import forms
 from django.conf import settings
 from django.contrib.auth.forms import AuthenticationForm, PasswordChangeForm
-from django.core.exceptions import ValidationError
 from django.utils.translation import ugettext_lazy as _
 
 
@@ -37,7 +34,7 @@ class MarkTaskCreateForm(forms.Form):
       Mark task create form
     """
     name = forms.CharField(label=_("任务名"), max_length=50)
-    file_path = forms.FilePathField(settings.MEDIA_ROOT, label=_("文件名"), allow_files=True, allow_folders=False)
+    # file_path = forms.FilePathField(settings.MEDIA_ROOT, label=_("文件名"), allow_files=True, allow_folders=False)
 
     # img_browser = FileBrowseField(max_length=200)
     upload_file = forms.FileField(max_length=200, label=_("文件名"))
