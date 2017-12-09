@@ -22,7 +22,7 @@ class CarListView(generic.ListView):
         #     return context
 
     # @permission_required(Perms.CAR_LIST, login_url=reverse_lazy('backend:index'))
-    @method_decorator(login_required)
+    # @method_decorator(login_required)
     def get_cars(self, request):
         """Return cars group by brand and model"""
         all_list = CarFeature.objects.all().order_by('id')

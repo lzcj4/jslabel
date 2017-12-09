@@ -30,18 +30,18 @@
             <div class="row panel panel-default">
                 <div class="panel-heading" >
 {#                    style="position: relative;border-bottom:1px solid #000"#}
-                    <span style="color: red"><h3>{{ k1.index_char }}</h3></span>
+                    <span style="color: red"><h4>{{ k1.index_char }}</h4></span>
                 </div>
 
-                <div class="panel-heading" style="position: relative;margin-top: 20px">
-                    <span><h3>{{ k1.name }}</h3></span>
+                <div class="panel-heading" style="position: relative;margin-top: 0px">
+                    <span><h4>{{ k1.name }}</h4></span>
                 </div>
 
                 {% for k2,v2 in v1.items %}
                     {% for car in v2 %}
                         <div class="col-md-2 column ui-sortable">
                             <div class="thumbnail">
-                                <img src="{{ car.front_photo }}">
+                                <img src="{{ car.front_photo }}" >
                                 <div class="caption">
                                     <h3>{{ car.market_year }}</h3>
                                     <p>{{ car.front }}</p>
