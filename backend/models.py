@@ -37,7 +37,7 @@ class MarkUserTask(models.Model):
 
 class MarkTask(models.Model):
     name = models.CharField(max_length=100, verbose_name='任务名', unique=False, default='')
-    user_created = models.ForeignKey(User, verbose_name='创建人', null=False)
+    user_created = models.ForeignKey(User, verbose_name='创建人', null=False,on_delete=models.DO_NOTHING)
     date_created = models.DateTimeField(auto_now_add=True, verbose_name='创建时间')
 
     # class Meta:
